@@ -5,13 +5,13 @@
   <title>Visitors Dashboard</title>
 </head>
 <body>
-  <h2>訪客紀錄</h2>
+  <h2>🟢 在線訪客</h2>
   <button onclick="load()">重新整理</button>
   <div id="list">載入中...</div>
 
   <script>
     async function load() {
-      const res = await fetch("https://qgjtucbscrzqkvjsizwm.supabase.co/rest/v1/visitors?select=*&order=id.desc", {
+      const res = await fetch("https://qgjtucbscrzqkvjsizwm.supabase.co/rest/v1/visitors?select=*&order=last_seen.desc", {
         headers: {
           apikey: "sb_publishable_XRIWwaSCWIPhUrulnQJDSg_QREhc9Q8",
           Authorization: "Bearer sb_publishable_XRIWwaSCWIPhUrulnQJDSg_QREhc9Q8"
@@ -20,15 +20,27 @@
 
       const data = await res.json();
 
+      // 🟢 在線判斷（5秒內）
+      const online = data.filter(v => {
+        return (Date.now() - new Date(v.last_seen).getTime()) < 5000;
+      });
+
+      // 🟢 顯示畫面
       document.getElementById("list").innerHTML =
-        data.map(v => `<p>${v.ip} ｜ ${v.created_at}</p>`).join("");
+        online.map(v => `
+          <p>🟢 ${v.ip} ｜ ${new Date(v.last_seen).toLocaleTimeString()}</p>
+        `).join("");
+
+      // 如果沒人在線
+      if (online.length === 0) {
+        document.getElementById("list").innerHTML = "⚪ 沒有人在線";
+      }
     }
 
     load();
-setInterval(load, 1000);
+
+    // 🔁 每秒更新（即時感）
+    setInterval(load, 1000);
   </script>
 </body>
 </html>
-const online = data.filter(v => {
-  return (Date.now() - new Date(v.last_seen).getTime()) < 5000;
-});
