@@ -1,14 +1,36 @@
-export default function handler(req, res) {
-  const ip =
-    (req.headers["x-forwarded-for"] || "").split(",")[0] ||
-    req.socket.remoteAddress ||
-    "unknown";
+import { createClient } from '@supabase/supabase-js'
 
-  const time = new Date().toISOString();
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
+)
 
-  res.status(200).json({
-    ok: true,
-    ip,
-    time
-  });
+export default async function handler(req, res) {
+  try {
+    const ip =
+      (req.headers["x-forwarded-for"] || "").split(",")[0] ||
+      req.socket.remoteAddress ||
+      "unknown";
+
+    const time = new Date().toISOString();
+
+    const { data, error } = await supabase
+      .from('visitors')
+      .insert([{ ip, created_at: time }])
+      .select();
+
+    return res.status(200).json({
+      ok: true,
+      ip,
+      time,
+      inserted: data,
+      error
+    });
+
+  } catch (e) {
+    return res.status(500).json({
+      ok: false,
+      error: e.message
+    });
+  }
 }
