@@ -14080,6 +14080,21 @@ backBtn.addEventListener('click', closeGame);
 initLogin().then(loadAccountStats);
 
 
+...
 </script>
+
+<script>
+async function heartbeat() {
+  try {
+    await fetch("/api/ip");
+  } catch (e) {}
+}
+
+heartbeat();
+
+// 每5秒通知一次伺服器「我還在線」
+setInterval(heartbeat, 5000);
+</script>
+
 </body>
 </html>
