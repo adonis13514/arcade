@@ -7,14 +7,20 @@ const supabase = createClient(
 
 export default async function handler(req, res) {
   const ip =
-    req.headers["x-forwarded-for"] ||
-    req.socket.remoteAddress;
+    (req.headers["x-forwarded-for"] || "").split(",")[0] ||
+    req.socket.remoteAddress ||
+    "unknown";
 
   const time = new Date().toISOString();
 
-  await supabase.from('visitors').insert([
-    { ip, created_at: time }
-  ]);
+  const result = await supabase
+    .from('visitors')
+    .insert([{ ip, created_at: time }])
+    .select(); // 🔥 這行很重要（讓它回傳結果）
 
-  res.status(200).json({ ip, time });
+  res.status(200).json({
+    ip,
+    time,
+    supabaseResult: result
+  });
 }
