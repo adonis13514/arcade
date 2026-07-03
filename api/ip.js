@@ -30,17 +30,26 @@ export default async function handler(req, res) {
       )
       .select();
 
+    // 🔥 這行超重要：讓你看得到錯誤
+    if (error) {
+      return res.status(500).json({
+        ok: false,
+        step: "supabase_error",
+        error
+      });
+    }
+
     return res.status(200).json({
       ok: true,
       ip,
       time,
-      inserted: data,
-      error
+      inserted: data
     });
 
   } catch (e) {
     return res.status(500).json({
       ok: false,
+      step: "crash",
       error: e.message
     });
   }
