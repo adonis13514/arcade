@@ -16,7 +16,18 @@ export default async function handler(req, res) {
 
     const { data, error } = await supabase
       .from('visitors')
-      .insert([{ ip, created_at: time }])
+      .upsert(
+        [
+          {
+            ip,
+            created_at: time,
+            last_seen: time
+          }
+        ],
+        {
+          onConflict: 'ip'
+        }
+      )
       .select();
 
     return res.status(200).json({
