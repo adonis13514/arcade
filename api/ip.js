@@ -1,26 +1,36 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
-)
-
 export default async function handler(req, res) {
-  const ip =
-    (req.headers["x-forwarded-for"] || "").split(",")[0] ||
-    req.socket.remoteAddress ||
-    "unknown";
+  try {
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_ANON_KEY
+    )
 
-  const time = new Date().toISOString();
+    const ip =
+      (req.headers["x-forwarded-for"] || "").split(",")[0] ||
+      req.socket.remoteAddress ||
+      "unknown";
 
-  const result = await supabase
-    .from('visitors')
-    .insert([{ ip, created_at: time }])
-    .select(); // 🔥 這行很重要（讓它回傳結果）
+    const time = new Date().toISOString();
 
-  res.status(200).json({
-    ip,
-    time,
-    supabaseResult: result
-  });
+    const result = await supabase
+      .from('visitors')
+      .insert([{ ip, created_at: time }])
+      .select();
+
+    return res.status(200).json({
+      ok: true,
+      ip,
+      time,
+      supabaseResult: result
+    });
+
+  } catch (err) {
+    console.log("CRASH ERROR:", err);
+    return res.status(500).json({
+      ok: false,
+      error: err.message || err
+    });
+  }
 }
