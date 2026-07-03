@@ -1,0 +1,14 @@
+{
+  "name": "arcade",
+  "version": "1.0.0",
+  "description": "Dream Arcade - 夢境遊樂場",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static HTML project - no build required'"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.4.1"
+  },
+  "devDependencies": {},
+  "type": "module"
+}
