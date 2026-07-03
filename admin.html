@@ -2,11 +2,11 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Visitors Dashboard</title>
+  <title>Online Visitors</title>
 </head>
 <body>
   <h2>🟢 在線訪客</h2>
-  <button onclick="load()">重新整理</button>
+  <div id="count">載入中...</div>
   <div id="list">載入中...</div>
 
   <script>
@@ -20,18 +20,22 @@
 
       const data = await res.json();
 
-      // 🟢 在線判斷（5秒內）
+      // 🟢 在線判斷（30秒內）
       const online = data.filter(v => {
-        return (Date.now() - new Date(v.last_seen).getTime()) < 5000;
+        return (Date.now() - new Date(v.last_seen).getTime()) < 30000;
       });
 
-      // 🟢 顯示畫面
+      // 🟢 顯示人數
+      document.getElementById("count").innerHTML =
+        `目前在線：${online.length} 人`;
+
+      // 🟢 顯示列表
       document.getElementById("list").innerHTML =
         online.map(v => `
           <p>🟢 ${v.ip} ｜ ${new Date(v.last_seen).toLocaleTimeString()}</p>
         `).join("");
 
-      // 如果沒人在線
+      // 🟡 沒人在線
       if (online.length === 0) {
         document.getElementById("list").innerHTML = "⚪ 沒有人在線";
       }
@@ -39,8 +43,8 @@
 
     load();
 
-    // 🔁 每秒更新（即時感）
-    setInterval(load, 1000);
+    // 🔁 每3秒更新（即時感）
+    setInterval(load, 3000);
   </script>
 </body>
 </html>
