@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Visitors Dashboard</title>
+</head>
+<body>
+  <h2>訪客紀錄</h2>
+  <button onclick="load()">重新整理</button>
+  <div id="list">載入中...</div>
+
+  <script>
+    async function load() {
+      const res = await fetch("https://qgjtucbscrzqkvjsizwm.supabase.co/rest/v1/visitors?select=*&order=id.desc", {
+        headers: {
+          apikey: "你的SUPABASE_ANON_KEY",
+          Authorization: "Bearer 你的SUPABASE_ANON_KEY"
+        }
+      });
+
+      const data = await res.json();
+
+      document.getElementById("list").innerHTML =
+        data.map(v => `<p>${v.ip} ｜ ${v.created_at}</p>`).join("");
+    }
+
+    load();
+  </script>
+</body>
+</html>
