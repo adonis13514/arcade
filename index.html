@@ -2,288 +2,264 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>夢境遊樂場 ・ Dream Arcade</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>夢境遊樂場 ✦ Dream Arcade</title>
 <style>
-  :root {
-    --ink: #2b2440;
-    --paper: #fdf6ec;
-    --accent-pink: #ff6fa5;
-    --accent-blue: #5ec8e8;
-    --accent-purple: #8b6fd4;
-    --accent-gold: #ffc857;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html, body { width:100%; height:100%; overflow:hidden; background:var(--ink);
-    font-family:-apple-system,'Hiragino Sans','Noto Sans TC',sans-serif; }
-  #app { width:100%; height:100%; position:relative; }
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;background:#1a1530;font-family:-apple-system,'Hiragino Sans','Noto Sans TC',sans-serif;}
+#app{width:100%;height:100%;position:relative;}
 
-  /* ============ LOGIN SCREEN ============ */
-  #loginScreen {
-    width:100%; height:100%;
-    background:radial-gradient(ellipse at 30% 0%,#4a3d6e 0%,#2b2440 45%,#1a1530 100%);
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    position:absolute; inset:0; z-index:100;
-    overflow-y:auto; padding:20px;
-  }
-  #loginScreen::before {
-    content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
-    background-image:
-      radial-gradient(2px 2px at 20% 30%,white,transparent),
-      radial-gradient(2px 2px at 60% 70%,white,transparent),
-      radial-gradient(1px 1px at 80% 20%,white,transparent),
-      radial-gradient(1.5px 1.5px at 40% 85%,white,transparent),
-      radial-gradient(1px 1px at 90% 60%,white,transparent),
-      radial-gradient(1.5px 1.5px at 10% 65%,white,transparent);
-    opacity:0.4;
-  }
-  .login-box {
-    position:relative; z-index:1;
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.14);
-    border-radius:24px;
-    padding:36px 32px;
-    width:100%; max-width:420px;
-    backdrop-filter:blur(10px);
-    box-shadow:0 20px 60px rgba(0,0,0,0.4);
-  }
-  .login-title { color:#fff; font-size:28px; font-weight:900; letter-spacing:3px; text-align:center; margin-bottom:4px; }
-  .login-title span { color:var(--accent-gold); }
-  .login-sub { color:rgba(255,255,255,0.5); font-size:13px; text-align:center; margin-bottom:28px; }
+/* ===== LOGIN ===== */
+#loginScreen{
+  width:100%;height:100%;
+  background:radial-gradient(ellipse at 30% 0%,#4a3d6e,#2b2440 45%,#1a1530 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:absolute;inset:0;z-index:100;overflow-y:auto;padding:20px;
+}
+.login-box{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);
+  border-radius:24px;padding:36px 32px;width:100%;max-width:420px;
+  backdrop-filter:blur(10px);box-shadow:0 20px 60px rgba(0,0,0,0.4);
+}
+.login-title{color:#fff;font-size:28px;font-weight:900;letter-spacing:3px;text-align:center;margin-bottom:4px;}
+.login-title span{color:#ffc857;}
+.login-sub{color:rgba(255,255,255,0.5);font-size:13px;text-align:center;margin-bottom:28px;}
+.account-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.account-item{
+  display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:12px 14px;
+  cursor:pointer;transition:all 0.15s;
+}
+.account-item:hover{background:rgba(255,255,255,0.13);border-color:#ffc857;}
+.account-item.selected{border-color:#ffc857;background:rgba(255,200,87,0.12);}
+.account-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:rgba(255,255,255,0.1);}
+.account-info{flex:1;min-width:0;}
+.account-name{color:#fff;font-weight:800;font-size:15px;}
+.account-stats{color:rgba(255,255,255,0.45);font-size:11px;margin-top:2px;}
+.account-delete{background:none;border:none;color:rgba(255,100,100,0.5);font-size:16px;cursor:pointer;padding:4px 6px;border-radius:6px;transition:color 0.15s;line-height:1;}
+.account-delete:hover{color:#ff6060;}
+.login-divider{display:flex;align-items:center;gap:10px;margin:18px 0;}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.12);}
+.login-divider span{color:rgba(255,255,255,0.35);font-size:12px;white-space:nowrap;}
+.new-account-form{display:flex;gap:8px;}
+.new-account-form input{
+  flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);
+  border-radius:12px;padding:10px 14px;color:#fff;font-size:14px;outline:none;transition:border-color 0.15s;
+}
+.new-account-form input::placeholder{color:rgba(255,255,255,0.3);}
+.new-account-form input:focus{border-color:#5ec8e8;}
+.btn-create{padding:10px 18px;border-radius:12px;border:none;background:#8b6fd4;color:#fff;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;}
+.btn-login{width:100%;margin-top:20px;padding:13px;border-radius:14px;border:none;background:linear-gradient(135deg,#8b6fd4,#5ec8e8);color:#fff;font-weight:900;font-size:16px;letter-spacing:2px;cursor:pointer;}
+.btn-login:disabled{opacity:0.35;cursor:default;}
+.login-error{color:#ff8080;font-size:12px;text-align:center;margin-top:8px;min-height:18px;}
+.avatar-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.avatar-opt{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;background:rgba(255,255,255,0.08);border:2px solid transparent;transition:all 0.12s;}
+.avatar-opt.selected{border-color:#ffc857;background:rgba(255,200,87,0.15);}
 
-  .account-list { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
-  .account-item {
-    display:flex; align-items:center; gap:12px;
-    background:rgba(255,255,255,0.07);
-    border:1px solid rgba(255,255,255,0.12);
-    border-radius:14px; padding:12px 14px;
-    cursor:pointer; transition:all 0.15s;
-  }
-  .account-item:hover { background:rgba(255,255,255,0.13); border-color:var(--accent-gold); }
-  .account-item.selected { border-color:var(--accent-gold); background:rgba(255,200,87,0.12); }
-  .account-avatar {
-    width:42px; height:42px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    font-size:20px; flex-shrink:0;
-    background:rgba(255,255,255,0.1);
-  }
-  .account-info { flex:1; min-width:0; }
-  .account-name { color:#fff; font-weight:800; font-size:15px; }
-  .account-stats { color:rgba(255,255,255,0.45); font-size:11px; margin-top:2px; }
-  .account-delete {
-    background:none; border:none; color:rgba(255,100,100,0.5);
-    font-size:16px; cursor:pointer; padding:4px; line-height:1;
-    border-radius:6px; transition:color 0.15s;
-  }
-  .account-delete:hover { color:#ff6060; }
+/* ===== HUB ===== */
+#hub{width:100%;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;display:none;background:radial-gradient(ellipse at 30% 0%,#4a3d6e,#2b2440 50%,#1a1530 100%);}
+#hub::-webkit-scrollbar{width:6px;}
+#hub::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.18);border-radius:3px;}
+.hub-inner{max-width:1100px;margin:0 auto;padding:28px 20px 60px;}
 
-  .login-divider { display:flex; align-items:center; gap:10px; margin:18px 0; }
-  .login-divider::before, .login-divider::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.12); }
-  .login-divider span { color:rgba(255,255,255,0.35); font-size:12px; white-space:nowrap; }
+/* top bar */
+.hub-topbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:24px;}
+.hub-topbar-left{flex:1;min-width:0;}
+.hub-arcade-title{color:#fff;font-size:clamp(22px,4vw,36px);font-weight:900;letter-spacing:3px;line-height:1.1;}
+.hub-arcade-title span{color:#ffc857;}
+.hub-tagline{color:rgba(255,255,255,0.4);font-size:12px;letter-spacing:1px;margin-top:3px;}
+.hub-topbar-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 
-  .new-account-form { display:flex; gap:8px; }
-  .new-account-form input {
-    flex:1; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18);
-    border-radius:12px; padding:10px 14px; color:#fff; font-size:14px; outline:none;
-    transition:border-color 0.15s;
-  }
-  .new-account-form input::placeholder { color:rgba(255,255,255,0.3); }
-  .new-account-form input:focus { border-color:var(--accent-blue); }
-  .btn-create {
-    padding:10px 18px; border-radius:12px; border:none;
-    background:var(--accent-purple); color:#fff; font-weight:800; font-size:13px;
-    cursor:pointer; white-space:nowrap; transition:opacity 0.15s;
-  }
-  .btn-create:hover { opacity:0.85; }
-  .btn-login {
-    width:100%; margin-top:20px; padding:13px;
-    border-radius:14px; border:none;
-    background:linear-gradient(135deg,var(--accent-purple),var(--accent-blue));
-    color:#fff; font-weight:900; font-size:16px; letter-spacing:2px;
-    cursor:pointer; transition:opacity 0.15s;
-  }
-  .btn-login:hover { opacity:0.9; }
-  .btn-login:disabled { opacity:0.35; cursor:default; }
-  .login-error { color:#ff8080; font-size:12px; text-align:center; margin-top:8px; min-height:18px; }
+/* HUD badges */
+.hud-badge{
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);
+  border-radius:20px;padding:7px 14px;color:#fff;font-weight:800;font-size:13px;
+  letter-spacing:1px;backdrop-filter:blur(6px);display:flex;align-items:center;gap:6px;
+  cursor:pointer;transition:background 0.15s;white-space:nowrap;
+}
+.hud-badge:hover{background:rgba(255,255,255,0.18);}
+#walletBadge{border-color:rgba(255,200,87,0.4);color:#ffc857;}
+.diamonds-badge{border-color:rgba(0,206,201,0.4);color:#00cec9;}
+#userBadge{border-color:rgba(255,255,255,0.2);}
 
-  /* emoji avatar selector */
-  .avatar-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
-  .avatar-opt {
-    width:36px; height:36px; border-radius:50%; display:flex; align-items:center;
-    justify-content:center; font-size:18px; cursor:pointer;
-    background:rgba(255,255,255,0.08); border:2px solid transparent;
-    transition:all 0.12s;
-  }
-  .avatar-opt.selected { border-color:var(--accent-gold); background:rgba(255,200,87,0.15); }
+/* xp bar */
+.xp-bar-wrap{width:100%;background:rgba(255,255,255,0.08);border-radius:4px;height:6px;margin-top:4px;}
+#hudXpFill{height:100%;border-radius:4px;background:linear-gradient(90deg,#a29bfe,#6c5ce7);transition:width 0.4s;}
 
-  /* ============ HUB SCREEN ============ */
-  #hub {
-    width:100%; height:100%;
-    background:radial-gradient(ellipse at 30% 0%,#4a3d6e 0%,#2b2440 45%,#1a1530 100%);
-    overflow-y:auto; -webkit-overflow-scrolling:touch; position:relative;
-    display:none;
-  }
-  #hub::before {
-    content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
-    background-image:
-      radial-gradient(2px 2px at 20% 30%,white,transparent),
-      radial-gradient(2px 2px at 60% 70%,white,transparent),
-      radial-gradient(1px 1px at 80% 20%,white,transparent),
-      radial-gradient(1.5px 1.5px at 40% 85%,white,transparent),
-      radial-gradient(1px 1px at 90% 60%,white,transparent),
-      radial-gradient(1.5px 1.5px at 10% 65%,white,transparent);
-    opacity:0.5; z-index:0;
-  }
-  .hub-inner { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:40px 24px 60px; }
-  .hub-hero { position:relative; margin-bottom:36px; }
-  .eyebrow { display:block; color:rgba(255,255,255,0.45); font-size:11px; letter-spacing:4px; text-transform:uppercase; margin-bottom:10px; }
-  .hub-hero h1 { font-size:clamp(32px,6vw,54px); font-weight:900; color:#fff; letter-spacing:4px; line-height:1.1; margin-bottom:8px; }
-  .accent-text { color:var(--accent-gold); }
-  .hub-hero p { color:rgba(255,255,255,0.55); font-size:14px; letter-spacing:1px; }
+/* toolbar */
+.hub-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center;}
+.tool-btn{
+  padding:8px 16px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);
+  background:rgba(255,255,255,0.07);color:#fff;font-size:12px;font-weight:700;
+  letter-spacing:1px;cursor:pointer;transition:all 0.15s;white-space:nowrap;
+}
+.tool-btn:hover{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.3);}
+.tool-btn.primary{background:rgba(162,155,254,0.2);border-color:rgba(162,155,254,0.4);color:#a29bfe;}
+.tool-btn.gold{background:rgba(255,200,87,0.15);border-color:rgba(255,200,87,0.4);color:#ffc857;}
+#searchInput{
+  flex:1;min-width:140px;max-width:260px;background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);border-radius:20px;
+  padding:8px 16px;color:#fff;font-size:13px;outline:none;
+}
+#searchInput::placeholder{color:rgba(255,255,255,0.3);}
+#searchInput:focus{border-color:#5ec8e8;}
 
-  /* top bar with wallet + user */
-  .hub-topbar {
-    position:absolute; top:0; right:24px;
-    display:flex; align-items:center; gap:10px;
-  }
-  #walletBadge {
-    background:rgba(255,255,255,0.12); border:1px solid rgba(255,200,87,0.4);
-    border-radius:20px; padding:8px 16px; color:var(--accent-gold);
-    font-weight:800; font-size:14px; letter-spacing:1px; backdrop-filter:blur(6px);
-  }
-  #userBadge {
-    background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2);
-    border-radius:20px; padding:6px 14px; color:#fff;
-    font-weight:700; font-size:13px; letter-spacing:1px; backdrop-filter:blur(6px);
-    cursor:pointer; display:flex; align-items:center; gap:6px;
-    transition:background 0.15s;
-  }
-  #userBadge:hover { background:rgba(255,255,255,0.16); }
+/* filter tabs */
+.filter-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
+.filter-btn{
+  padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);
+  background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.6);font-size:12px;
+  font-weight:700;cursor:pointer;transition:all 0.15s;
+}
+.filter-btn:hover{background:rgba(255,255,255,0.12);}
+.filter-btn.active{background:rgba(162,155,254,0.25);border-color:#a29bfe;color:#a29bfe;}
 
-  .game-grid {
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-    gap:18px;
-  }
-  .game-card {
-    border-radius:16px; overflow:hidden; cursor:pointer;
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.1);
-    transition:transform 0.2s,box-shadow 0.2s,border-color 0.2s;
-    position:relative;
-  }
-  .game-card:hover {
-    transform:translateY(-4px) scale(1.02);
-    box-shadow:0 20px 40px rgba(0,0,0,0.35);
-    border-color:rgba(255,255,255,0.25);
-  }
-  .game-card canvas { width:100%; height:auto; display:block; }
-  .card-label { padding:12px 14px; }
-  .card-tag { display:inline-block; padding:3px 10px; border-radius:30px; font-size:10px; font-weight:800; letter-spacing:1px; color:#fff; margin-bottom:6px; }
-  .game-card h3 { color:#fff; font-size:16px; font-weight:800; letter-spacing:1px; }
-  .card-desc { color:rgba(255,255,255,0.5); font-size:11px; letter-spacing:0.5px; margin-top:3px; }
-  .card-hs { font-size:11px; color:rgba(255,255,255,0.45); margin-top:3px; }
-  .play-badge {
-    position:absolute; top:10px; right:10px;
-    background:rgba(0,0,0,0.5); color:#fff;
-    font-size:11px; font-weight:700; padding:4px 10px;
-    border-radius:20px; opacity:0; transition:opacity 0.2s;
-    backdrop-filter:blur(4px); letter-spacing:1px;
-  }
-  .game-card:hover .play-badge { opacity:1; }
+/* game grid */
+.game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
+.game-card{
+  border-radius:16px;overflow:hidden;cursor:pointer;position:relative;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+  transition:transform 0.2s,box-shadow 0.2s,border-color 0.2s;
+}
+.game-card:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 20px 40px rgba(0,0,0,0.35);border-color:rgba(255,255,255,0.25);}
+.game-card canvas{width:100%;height:auto;display:block;}
+.card-label{padding:10px 12px;}
+.card-tag{display:inline-block;padding:3px 10px;border-radius:30px;font-size:10px;font-weight:800;letter-spacing:1px;color:#fff;margin-bottom:5px;}
+.game-card h3{color:#fff;font-size:14px;font-weight:800;letter-spacing:1px;}
+.card-desc{color:rgba(255,255,255,0.45);font-size:10px;margin-top:2px;}
+.card-hs{color:rgba(255,200,87,0.8);font-size:10px;margin-top:2px;}
+.play-badge{position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;opacity:0;transition:opacity 0.2s;backdrop-filter:blur(4px);}
+.game-card:hover .play-badge{opacity:1;}
+.fav-btn{position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.45);border:none;color:rgba(255,255,255,0.4);font-size:16px;width:28px;height:28px;border-radius:50%;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.fav-btn:hover,.fav-btn.fav-active{color:#ff6fa5;}
+.fav-btn.fav-active{background:rgba(255,111,165,0.2);}
 
-  /* ============ GAME SCREEN ============ */
-  #gameScreen {
-    width:100%; height:100%; position:absolute; inset:0;
-    display:none; flex-direction:column;
-    background:#1a1530;
-  }
-  #gameScreen.active { display:flex; }
-  #gameTopBar {
-    height:54px; flex-shrink:0;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:0 18px;
-    background:rgba(0,0,0,0.35); backdrop-filter:blur(8px);
-    border-bottom:1px solid rgba(255,255,255,0.08); z-index:10;
-  }
-  #backBtn {
-    background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2);
-    color:#fff; padding:7px 16px; border-radius:30px;
-    font-size:13px; font-weight:700; letter-spacing:1px; cursor:pointer;
-    transition:background 0.15s;
-  }
-  #backBtn:hover { background:rgba(255,255,255,0.18); }
-  #gameTitleBar { color:#fff; font-weight:800; font-size:15px; letter-spacing:2px; text-shadow:0 2px 8px rgba(0,0,0,0.5); opacity:0.9; }
-  .game-container { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+/* ===== GAME SCREEN ===== */
+#gameScreen{width:100%;height:100%;position:absolute;inset:0;display:none;flex-direction:column;background:#1a1530;}
+#gameScreen.active{display:flex;}
+#gameTopBar{
+  height:54px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;
+  padding:0 14px;background:rgba(0,0,0,0.4);backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(255,255,255,0.08);z-index:10;gap:8px;
+}
+#backBtn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:7px 14px;border-radius:30px;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;white-space:nowrap;}
+#backBtn:hover{background:rgba(255,255,255,0.18);}
+#gameTitleBar{color:#fff;font-weight:800;font-size:14px;letter-spacing:2px;flex:1;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.game-top-actions{display:flex;gap:6px;align-items:center;}
+#pauseBtn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:7px 12px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;}
+#shopOpenBtn{background:rgba(255,200,87,0.2);border:1.5px solid rgba(255,200,87,0.5);color:#ffc857;font-size:12px;font-weight:700;letter-spacing:1px;padding:7px 13px;border-radius:20px;cursor:pointer;display:none;}
+.game-container{width:100%;flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;}
 
-  #hub::-webkit-scrollbar { width:8px; }
-  #hub::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.2); border-radius:4px; }
+/* pause overlay */
+#pauseOverlay{display:none;position:absolute;inset:54px 0 0 0;background:rgba(10,5,30,0.82);z-index:50;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
+#pauseOverlay div{color:#fff;font-size:28px;font-weight:900;letter-spacing:3px;}
+.pause-btn{padding:12px 36px;border-radius:20px;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:1px;border:none;}
 
-  @media (max-width:480px) {
-    .game-grid { grid-template-columns:repeat(2,1fr); gap:14px; }
-    .game-card canvas { height:110px; }
-    .game-card h3 { font-size:14px; }
-    .card-desc { font-size:10px; }
-    .login-box { padding:28px 20px; }
-  }
+@media(max-width:480px){
+  .game-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+  .hub-topbar-right{gap:6px;}
+  .hud-badge{font-size:12px;padding:6px 10px;}
+  .login-box{padding:24px 16px;}
+}
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- ============ LOGIN SCREEN ============ -->
-  <div id="loginScreen">
-    <div class="login-box">
-      <div class="login-title">夢境<span>遊樂場</span></div>
-      <div class="login-sub">選擇你的冒險者，或創建新帳號 ✦</div>
-
-      <div class="account-list" id="accountList">
-        <!-- dynamically populated -->
-      </div>
-
-      <div class="login-divider"><span>或建立新帳號</span></div>
-
-      <div id="newAccountSection">
-        <div class="new-account-form">
-          <input type="text" id="newNameInput" placeholder="輸入你的冒險者名稱" maxlength="12">
-          <button class="btn-create" id="createAccountBtn">建立</button>
-        </div>
-        <div class="avatar-row" id="avatarRow"></div>
-      </div>
-
-      <div class="login-error" id="loginError"></div>
-      <button class="btn-login" id="loginBtn" disabled>▶ 進入遊樂場</button>
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-title">夢境<span>遊樂場</span></div>
+    <div class="login-sub">選擇你的冒險者，或創建新帳號 ✦</div>
+    <div class="account-list" id="accountList"></div>
+    <div class="login-divider"><span>或建立新帳號</span></div>
+    <div class="new-account-form">
+      <input type="text" id="newNameInput" placeholder="輸入冒險者名稱" maxlength="12">
+      <button class="btn-create" id="createAccountBtn">建立</button>
     </div>
+    <div class="avatar-row" id="avatarRow"></div>
+    <div class="login-error" id="loginError"></div>
+    <button class="btn-login" id="loginBtn" disabled>▶ 進入遊樂場</button>
   </div>
+</div>
 
-  <!-- ============ HUB ============ -->
-  <div id="hub">
-    <div class="hub-inner">
-      <div class="hub-hero">
-        <div class="hub-topbar">
-          <div id="walletBadge"></div>
-          <div id="userBadge" title="點擊切換帳號">
-            <span id="userAvatarDisplay">🎮</span>
-            <span id="userNameDisplay">玩家</span>
+<!-- HUB -->
+<div id="hub">
+  <div class="hub-inner">
+    <!-- top bar -->
+    <div class="hub-topbar">
+      <div class="hub-topbar-left">
+        <div class="hub-arcade-title">夢境<span>遊樂場</span></div>
+        <div class="hub-tagline">33 個世界 · 無限冒險 ✦</div>
+      </div>
+      <div class="hub-topbar-right">
+        <div id="walletBadge" class="hud-badge"></div>
+        <div class="hud-badge diamonds-badge">💎 <span id="hudDiamonds">0</span></div>
+        <div class="hud-badge" id="userBadge">
+          <span id="userAvatarDisplay">🎮</span>
+          <div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span id="userNameDisplay">玩家</span>
+              <span id="userLevelDisplay" style="color:#a29bfe;font-size:11px;"></span>
+            </div>
+            <div id="hudLevel" style="display:none;"></div>
+            <div class="xp-bar-wrap" id="hudXpBar"><div id="hudXpFill" style="width:0%;"></div></div>
           </div>
         </div>
-        <span class="eyebrow">33 WORLDS・1 ARCADE</span>
-        <h1>夢境<span class="accent-text">遊樂場</span></h1>
-        <p>選一個世界，開始你的冒險 ✦ 點擊卡片即可進入</p>
       </div>
-      <div class="game-grid" id="gameGrid"></div>
     </div>
-  </div>
 
-  <!-- ============ GAME SCREEN ============ -->
-  <div id="gameScreen">
-    <div id="gameTopBar">
-      <button id="backBtn">← 返回大廳</button>
-      <div id="gameTitleBar"></div>
-      <button id="shopOpenBtn" style="background:rgba(255,200,87,0.2);border:1.5px solid rgba(255,200,87,0.5);color:#ffc857;font-size:13px;font-weight:700;letter-spacing:1px;padding:8px 16px;border-radius:30px;cursor:pointer;backdrop-filter:blur(6px);display:none;">🛍️ 商店</button>
+    <!-- toolbar -->
+    <div class="hub-toolbar">
+      <input type="text" id="searchInput" placeholder="🔍 搜尋遊戲...">
+      <button class="tool-btn primary" id="profileBtn">👤 個人資料</button>
+      <button class="tool-btn primary" id="lbBtn">🏆 排行榜</button>
+      <button class="tool-btn gold" id="spinBtn2">🎡 轉盤 (20💰)</button>
+      <button class="tool-btn" id="tasksBtn">📋 每日任務 <span id="tasksBadge" style="color:#55e6a5;"></span></button>
+      <button class="tool-btn" id="randomBtn">🎲 隨機遊戲</button>
     </div>
-    <div class="game-container" id="gameContainer"></div>
+
+    <!-- filter tabs -->
+    <div class="filter-tabs">
+      <button class="filter-btn active" data-filter="all">全部</button>
+      <button class="filter-btn" data-filter="fav">❤️ 收藏</button>
+      <button class="filter-btn" data-filter="recent">🕹️ 最近遊玩</button>
+      <button class="filter-btn" data-filter="益智">🧠 益智</button>
+      <button class="filter-btn" data-filter="方塊">🧩 方塊</button>
+      <button class="filter-btn" data-filter="消除">✨ 消除</button>
+      <button class="filter-btn" data-filter="棋類">♟️ 棋類</button>
+      <button class="filter-btn" data-filter="反應">⚡ 反應</button>
+      <button class="filter-btn" data-filter="跑酷">🏃 跑酷</button>
+      <button class="filter-btn" data-filter="養成">🌱 養成</button>
+      <button class="filter-btn" data-filter="放置">⏱️ 放置</button>
+      <button class="filter-btn" data-filter="牌類">🃏 牌類</button>
+      <button class="filter-btn" data-filter="動作">💥 動作</button>
+      <button class="filter-btn" data-filter="競技">🎯 競技</button>
+      <button class="filter-btn" data-filter="休閒">🎪 休閒</button>
+    </div>
+
+    <!-- game grid -->
+    <div class="game-grid" id="gameGrid"></div>
   </div>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="gameScreen">
+  <div id="gameTopBar">
+    <button id="backBtn">← 返回</button>
+    <div id="gameTitleBar"></div>
+    <div class="game-top-actions">
+      <button id="pauseBtn">⏸ 暫停</button>
+      <button id="shopOpenBtn">🛍️ 商店</button>
+    </div>
+  </div>
+  <div class="game-container" id="gameContainer"></div>
+  <div id="pauseOverlay">
+    <div>⏸ 已暫停</div>
+    <button class="pause-btn" id="resumeBtn" style="background:linear-gradient(135deg,#a29bfe,#6c5ce7);color:#fff;">▶ 繼續遊戲</button>
+    <button class="pause-btn" id="quitBtn" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.2);">🚪 離開遊戲</button>
+  </div>
+</div>
 
 </div>
 
@@ -3978,6 +3954,595 @@ function mountWalletBadge(containerEl) {
   });
 }
 
+
+
+// ===== systems.js =====
+// ============================================================
+// ARCADE SYSTEMS — Meta-game layer
+// XP/Levels, Achievements, Daily Login, Daily Tasks,
+// Spin Wheel, Stats, Dual Currency, Leaderboard
+// ============================================================
+
+// ---- XP & Level System ----
+const XP_PER_LEVEL = (lvl) => Math.floor(100 * Math.pow(1.35, lvl - 1));
+const MAX_LEVEL = 50;
+const TITLES = [
+  [1,'新手冒險者'],[5,'初級探索者'],[10,'中級勇士'],
+  [15,'高級獵手'],[20,'精英戰士'],[25,'大師玩家'],
+  [30,'傳說冒險者'],[35,'神話英雄'],[40,'遊樂之神'],
+  [45,'夢境主宰'],[50,'永恆傳奇']
+];
+function titleForLevel(lvl) {
+  let t = TITLES[0][1];
+  for (const [l, name] of TITLES) { if (lvl >= l) t = name; }
+  return t;
+}
+function addXP(amount) {
+  const s = window.__sys;
+  s.xp += amount;
+  let leveled = false;
+  while (s.level < MAX_LEVEL && s.xp >= XP_PER_LEVEL(s.level)) {
+    s.xp -= XP_PER_LEVEL(s.level);
+    s.level++;
+    leveled = true;
+    showSysToast(`🎉 升級！等級 ${s.level}・${titleForLevel(s.level)}`, '#ffc857');
+    // level-up bonus
+    const bonus = s.level * 10;
+    Wallet.add(bonus);
+    addDiamonds(s.level >= 10 ? Math.floor(s.level / 5) : 0);
+    showSysToast(`🎁 等級獎勵：${bonus} 金幣`, '#55e6a5');
+  }
+  if (leveled) { checkAchievements(); scheduleSaveAll(); }
+  updateHudXP();
+}
+
+function updateHudXP() {
+  const s = window.__sys;
+  const el = document.getElementById('hudLevel');
+  const bar = document.getElementById('hudXpBar');
+  const barFill = document.getElementById('hudXpFill');
+  if (el) el.textContent = s.level;
+  if (bar && barFill) {
+    const need = XP_PER_LEVEL(s.level);
+    barFill.style.width = Math.min(100, s.xp / need * 100) + '%';
+    bar.title = `${s.xp} / ${need} XP`;
+  }
+}
+
+// ---- Diamond (premium) currency ----
+function addDiamonds(n) {
+  if (n <= 0) return;
+  window.__sys.diamonds += n;
+  const el = document.getElementById('hudDiamonds');
+  if (el) el.textContent = window.__sys.diamonds;
+  scheduleSaveAll();
+}
+function spendDiamonds(n) {
+  if (window.__sys.diamonds < n) return false;
+  window.__sys.diamonds -= n;
+  const el = document.getElementById('hudDiamonds');
+  if (el) el.textContent = window.__sys.diamonds;
+  scheduleSaveAll();
+  return true;
+}
+
+// ---- Stats tracking ----
+function recordPlay(gameId, score, durationSec) {
+  const s = window.__sys;
+  if (!s.stats[gameId]) s.stats[gameId] = { plays: 0, totalTime: 0, bestScore: 0 };
+  const gs = s.stats[gameId];
+  gs.plays++;
+  gs.totalTime += (durationSec || 0);
+  if (score > gs.bestScore) gs.bestScore = score;
+  s.totalPlays = (s.totalPlays || 0) + 1;
+  s.totalTime = (s.totalTime || 0) + (durationSec || 0);
+  if (!s.recentGames) s.recentGames = [];
+  s.recentGames.unshift({ gameId, score, ts: Date.now() });
+  s.recentGames = s.recentGames.slice(0, 20);
+  if (!s.favorites) s.favorites = [];
+  checkAchievements();
+  scheduleSaveAll();
+}
+
+function toggleFavorite(gameId) {
+  const s = window.__sys;
+  if (!s.favorites) s.favorites = [];
+  const idx = s.favorites.indexOf(gameId);
+  if (idx >= 0) { s.favorites.splice(idx, 1); return false; }
+  else { s.favorites.push(gameId); return true; }
+}
+
+// ---- Achievement System ----
+const ACHIEVEMENTS = [
+  { id:'first_play', name:'初次冒險', desc:'第一次遊玩任何遊戲', icon:'🎮', xp:50, diamonds:1,
+    check: s => s.totalPlays >= 1 },
+  { id:'play10', name:'停不下來', desc:'總共遊玩 10 次', icon:'🔥', xp:100, diamonds:2,
+    check: s => (s.totalPlays||0) >= 10 },
+  { id:'play50', name:'遊樂達人', desc:'總共遊玩 50 次', icon:'⚡', xp:300, diamonds:5,
+    check: s => (s.totalPlays||0) >= 50 },
+  { id:'play100', name:'遊樂傳說', desc:'總共遊玩 100 次', icon:'👑', xp:800, diamonds:15,
+    check: s => (s.totalPlays||0) >= 100 },
+  { id:'coins100', name:'小富翁', desc:'累計擁有 100 金幣', icon:'💰', xp:80, diamonds:2,
+    check: s => Wallet.coins >= 100 },
+  { id:'coins1000', name:'大富翁', desc:'累計擁有 1000 金幣', icon:'💎', xp:300, diamonds:8,
+    check: s => Wallet.coins >= 1000 },
+  { id:'level5', name:'初露鋒芒', desc:'達到等級 5', icon:'⭐', xp:0, diamonds:3,
+    check: s => s.level >= 5 },
+  { id:'level10', name:'漸入佳境', desc:'達到等級 10', icon:'🌟', xp:0, diamonds:8,
+    check: s => s.level >= 10 },
+  { id:'level20', name:'高手在此', desc:'達到等級 20', icon:'💫', xp:0, diamonds:20,
+    check: s => s.level >= 20 },
+  { id:'level30', name:'傳說降臨', desc:'達到等級 30', icon:'🌠', xp:0, diamonds:50,
+    check: s => s.level >= 30 },
+  { id:'daily3', name:'每日報到', desc:'連續登入 3 天', icon:'📅', xp:150, diamonds:3,
+    check: s => (s.loginStreak||0) >= 3 },
+  { id:'daily7', name:'一週常客', desc:'連續登入 7 天', icon:'🗓️', xp:400, diamonds:10,
+    check: s => (s.loginStreak||0) >= 7 },
+  { id:'daily30', name:'月度英雄', desc:'連續登入 30 天', icon:'🏆', xp:2000, diamonds:50,
+    check: s => (s.loginStreak||0) >= 30 },
+  { id:'fav5', name:'品味玩家', desc:'收藏 5 款遊戲', icon:'❤️', xp:100, diamonds:2,
+    check: s => (s.favorites||[]).length >= 5 },
+  { id:'tasks10', name:'任務達人', desc:'完成 10 個每日任務', icon:'✅', xp:200, diamonds:5,
+    check: s => (s.tasksCompleted||0) >= 10 },
+  { id:'shop1', name:'購物初體驗', desc:'在商店購買第一件商品', icon:'🛍️', xp:100, diamonds:2,
+    check: s => ShopItems.some(i=>i.owned&&i.price>0) },
+  { id:'spin5', name:'幸運轉輪', desc:'轉動轉盤 5 次', icon:'🎡', xp:80, diamonds:2,
+    check: s => (s.spinCount||0) >= 5 },
+  { id:'variety5', name:'博學玩家', desc:'遊玩 5 種不同遊戲', icon:'🎯', xp:200, diamonds:5,
+    check: s => Object.keys(s.stats||{}).length >= 5 },
+  { id:'variety15', name:'全能冒險者', desc:'遊玩 15 種不同遊戲', icon:'🗺️', xp:600, diamonds:15,
+    check: s => Object.keys(s.stats||{}).length >= 15 },
+  { id:'variety33', name:'遊樂場征服者', desc:'遊玩全部 33 種遊戲', icon:'🎪', xp:2000, diamonds:100,
+    check: s => Object.keys(s.stats||{}).length >= 33 },
+];
+
+function checkAchievements() {
+  const s = window.__sys;
+  if (!s.achievements) s.achievements = [];
+  for (const ach of ACHIEVEMENTS) {
+    if (s.achievements.includes(ach.id)) continue;
+    if (ach.check(s)) {
+      s.achievements.push(ach.id);
+      if (ach.xp > 0) addXP(ach.xp);
+      if (ach.diamonds > 0) addDiamonds(ach.diamonds);
+      showAchievementUnlock(ach);
+      scheduleSaveAll();
+    }
+  }
+}
+
+function showAchievementUnlock(ach) {
+  const div = document.createElement('div');
+  div.style.cssText = 'position:fixed;bottom:80px;right:20px;background:rgba(30,20,50,0.97);border:2px solid #ffc857;border-radius:16px;padding:14px 18px;color:#fff;z-index:9999;max-width:260px;display:flex;gap:12px;align-items:center;box-shadow:0 8px 24px rgba(0,0,0,0.4);';
+  div.innerHTML = `<span style="font-size:32px;">${ach.icon}</span><div><div style="font-size:11px;color:#ffc857;letter-spacing:2px;font-weight:800;">成就解鎖！</div><div style="font-weight:800;font-size:14px;margin:2px 0;">${ach.name}</div><div style="font-size:11px;color:rgba(255,255,255,0.6);">${ach.desc}</div></div>`;
+  document.body.appendChild(div);
+  setTimeout(() => { div.style.transition='opacity 0.5s'; div.style.opacity='0'; setTimeout(()=>div.remove(),500); }, 3200);
+}
+
+// ---- Daily Login Reward ----
+const DAILY_REWARDS = [
+  { day:1, coins:50, xp:30, desc:'第1天' },
+  { day:2, coins:80, xp:50, desc:'第2天' },
+  { day:3, coins:120, xp:80, diamonds:1, desc:'第3天 ★' },
+  { day:4, coins:100, xp:60, desc:'第4天' },
+  { day:5, coins:150, xp:100, desc:'第5天' },
+  { day:6, coins:200, xp:120, diamonds:2, desc:'第6天 ★★' },
+  { day:7, coins:350, xp:250, diamonds:5, desc:'第7天 👑' },
+];
+
+function checkDailyLogin() {
+  const s = window.__sys;
+  const today = new Date().toDateString();
+  if (s.lastLoginDate === today) return; // already claimed today
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+  if (s.lastLoginDate === yesterday) {
+    s.loginStreak = (s.loginStreak || 0) + 1;
+  } else {
+    s.loginStreak = 1;
+  }
+  s.lastLoginDate = today;
+  const rewardDay = ((s.loginStreak - 1) % 7) + 1;
+  const reward = DAILY_REWARDS[rewardDay - 1];
+  Wallet.add(reward.coins);
+  addXP(reward.xp);
+  if (reward.diamonds) addDiamonds(reward.diamonds);
+  scheduleSaveAll();
+  checkAchievements();
+  showDailyLoginPopup(reward, s.loginStreak);
+}
+
+function showDailyLoginPopup(reward, streak) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(10,5,25,0.8);z-index:10000;display:flex;align-items:center;justify-content:center;';
+  overlay.innerHTML = `
+    <div style="background:linear-gradient(135deg,#2d1f6b,#4a2a5c);border:2px solid rgba(255,200,87,0.5);border-radius:24px;padding:36px 32px;max-width:340px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+      <div style="font-size:48px;margin-bottom:8px;">🎁</div>
+      <div style="color:#ffc857;font-weight:900;font-size:20px;letter-spacing:2px;">每日登入獎勵</div>
+      <div style="color:rgba(255,255,255,0.6);font-size:13px;margin:6px 0 20px;">連續登入第 ${streak} 天</div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;">
+        ${DAILY_REWARDS.map((r,i)=>`<div style="background:rgba(255,255,255,0.08);border:1.5px solid ${i+1===((streak-1)%7+1)?'#ffc857':'rgba(255,255,255,0.15)'};border-radius:10px;padding:6px 10px;min-width:38px;text-align:center;${i+1<((streak-1)%7+1)?'opacity:0.4':''}">
+          <div style="font-size:10px;color:rgba(255,255,255,0.5);">${r.desc}</div>
+          <div style="color:#ffc857;font-weight:800;font-size:12px;">💰${r.coins}</div>
+        </div>`).join('')}
+      </div>
+      <div style="background:rgba(255,255,255,0.1);border-radius:14px;padding:16px;margin-bottom:20px;">
+        <div style="color:#55e6a5;font-weight:800;font-size:16px;">+ ${reward.coins} 金幣</div>
+        <div style="color:#a29bfe;font-size:13px;margin-top:4px;">+ ${reward.xp} XP${reward.diamonds?` + ${reward.diamonds} 💎`:''}</div>
+      </div>
+      <button id="dailyClaimBtn" style="width:100%;padding:13px;border-radius:14px;border:none;background:linear-gradient(135deg,#ffc857,#ff8a3a);color:#2b2440;font-weight:900;font-size:15px;letter-spacing:1px;cursor:pointer;">領取獎勵！</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#dailyClaimBtn').addEventListener('click', () => overlay.remove());
+}
+
+// ---- Daily Tasks ----
+const TASK_POOL = [
+  { id:'play3', name:'遊玩 3 局', icon:'🎮', coins:30, xp:40, check: (s,d) => (d.plays||0)>=3 },
+  { id:'play5', name:'遊玩 5 局', icon:'🔥', coins:60, xp:80, check: (s,d) => (d.plays||0)>=5 },
+  { id:'play2diff', name:'遊玩 2 種不同遊戲', icon:'🎯', coins:40, xp:60, check: (s,d) => new Set(d.gamesPlayed||[]).size>=2 },
+  { id:'earn100', name:'賺取 100 金幣', icon:'💰', coins:50, xp:70, check: (s,d) => (d.coinsEarned||0)>=100 },
+  { id:'earn50xp', name:'獲得 50 XP', icon:'⭐', coins:40, xp:0, check: (s,d) => (d.xpEarned||0)>=50 },
+  { id:'visit3', name:'進入 3 個不同遊戲', icon:'🗺️', coins:35, xp:50, check: (s,d) => new Set(d.gamesPlayed||[]).size>=3 },
+];
+
+function getTodayTaskKey() { return 'tasks_'+new Date().toDateString().replace(/ /g,'_'); }
+
+function initDailyTasks() {
+  const s = window.__sys;
+  const key = getTodayTaskKey();
+  if (s.dailyTaskDay !== key) {
+    // new day — pick 3 random tasks
+    const pool = [...TASK_POOL].sort(()=>Math.random()-0.5).slice(0,3);
+    s.dailyTaskDay = key;
+    s.dailyTasks = pool.map(t=>({...t, done:false}));
+    s.dailyProgress = { plays:0, gamesPlayed:[], coinsEarned:0, xpEarned:0 };
+    scheduleSaveAll();
+  }
+}
+
+function trackTaskProgress(event, value) {
+  const s = window.__sys;
+  if (!s.dailyProgress) s.dailyProgress = {};
+  const p = s.dailyProgress;
+  if (event==='play') { p.plays=(p.plays||0)+1; if(value)p.gamesPlayed=[...(p.gamesPlayed||[]),value]; }
+  if (event==='coins') p.coinsEarned=(p.coinsEarned||0)+value;
+  if (event==='xp') p.xpEarned=(p.xpEarned||0)+value;
+  checkDailyTasks();
+}
+
+function checkDailyTasks() {
+  const s = window.__sys;
+  if (!s.dailyTasks) return;
+  let anyNew = false;
+  s.dailyTasks.forEach(task => {
+    if (task.done) return;
+    if (task.check(s, s.dailyProgress||{})) {
+      task.done = true;
+      anyNew = true;
+      Wallet.add(task.coins);
+      if (task.xp>0) addXP(task.xp);
+      s.tasksCompleted = (s.tasksCompleted||0)+1;
+      showSysToast(`✅ 任務完成：${task.name}！+${task.coins}💰`, '#55e6a5');
+    }
+  });
+  if (anyNew) { checkAchievements(); scheduleSaveAll(); }
+  refreshTasksUI();
+}
+
+// ---- Spin Wheel ----
+const SPIN_PRIZES = [
+  { label:'50 金幣', type:'coins', value:50, color:'#ffc857', weight:30 },
+  { label:'100 金幣', type:'coins', value:100, color:'#ff8a3a', weight:20 },
+  { label:'200 金幣', type:'coins', value:200, color:'#ff6fa5', weight:10 },
+  { label:'30 XP', type:'xp', value:30, color:'#a29bfe', weight:25 },
+  { label:'80 XP', type:'xp', value:80, color:'#5ec8e8', weight:15 },
+  { label:'1 💎', type:'diamonds', value:1, color:'#00cec9', weight:8 },
+  { label:'3 💎', type:'diamonds', value:3, color:'#6c5ce7', weight:3 },
+  { label:'空轉', type:'nothing', value:0, color:'rgba(255,255,255,0.15)', weight:25 },
+];
+// normalize weights
+const totalWeight = SPIN_PRIZES.reduce((s,p)=>s+p.weight,0);
+
+function openSpinWheel() {
+  const s = window.__sys;
+  const today = new Date().toDateString();
+  const cost = 20; // coins to spin
+  if (Wallet.coins < cost) { showSysToast('金幣不足！需要 20 金幣才能轉動', '#ff6060'); return; }
+
+  const overlay = document.createElement('div');
+  overlay.id = 'spinOverlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(10,5,25,0.88);z-index:10000;display:flex;align-items:center;justify-content:center;';
+  overlay.innerHTML = `
+    <div style="background:linear-gradient(135deg,#2d1f6b,#1a1245);border:2px solid rgba(162,155,254,0.4);border-radius:24px;padding:32px 28px;max-width:380px;width:92%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+      <div style="color:#fff;font-weight:900;font-size:20px;letter-spacing:2px;margin-bottom:4px;">🎡 幸運轉盤</div>
+      <div style="color:rgba(255,255,255,0.5);font-size:12px;margin-bottom:20px;">消費 20 金幣轉動一次，運氣決定獎勵！</div>
+      <canvas id="spinCanvas" width="260" height="260" style="border-radius:50%;box-shadow:0 0 30px rgba(162,155,254,0.3);margin:0 auto;display:block;"></canvas>
+      <div id="spinPointer" style="font-size:32px;margin:8px 0;">▼</div>
+      <div id="spinResult" style="min-height:36px;color:#ffc857;font-weight:800;font-size:16px;"></div>
+      <div style="display:flex;gap:10px;margin-top:16px;">
+        <button id="spinBtn" style="flex:1;padding:12px;border-radius:14px;border:none;background:linear-gradient(135deg,#a29bfe,#6c5ce7);color:#fff;font-weight:900;font-size:14px;letter-spacing:1px;cursor:pointer;">轉動！(💰20)</button>
+        <button id="spinCloseBtn" style="padding:12px 18px;border-radius:14px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.6);cursor:pointer;">關閉</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  drawWheel(0);
+
+  let spinning = false;
+  overlay.querySelector('#spinBtn').addEventListener('click', () => {
+    if (spinning) return;
+    if (!Wallet.spend(cost)) { showSysToast('金幣不足！','#ff6060'); return; }
+    spinning = true;
+    s.spinCount = (s.spinCount||0)+1;
+    // pick prize
+    let r = Math.random()*totalWeight, chosen;
+    for (const p of SPIN_PRIZES) { r-=p.weight; if(r<=0){chosen=p;break;} }
+    chosen = chosen||SPIN_PRIZES[0];
+    const prizeIdx = SPIN_PRIZES.indexOf(chosen);
+    const sliceAngle = (Math.PI*2)/SPIN_PRIZES.length;
+    const targetAngle = (Math.PI*2*8) + (Math.PI*2 - prizeIdx*sliceAngle - sliceAngle/2) - Math.PI/2;
+    let current=0, start=null;
+    const duration=3500;
+    function animate(ts) {
+      if(!start)start=ts;
+      const elapsed=ts-start;
+      const progress=Math.min(1,elapsed/duration);
+      const ease=1-Math.pow(1-progress,4);
+      current=targetAngle*ease;
+      drawWheel(current);
+      if(progress<1){requestAnimationFrame(animate);}
+      else{
+        spinning=false;
+        const resultEl=overlay.querySelector('#spinResult');
+        resultEl.textContent=`✨ 獲得：${chosen.label}！`;
+        if(chosen.type==='coins')Wallet.add(chosen.value);
+        else if(chosen.type==='xp')addXP(chosen.value);
+        else if(chosen.type==='diamonds')addDiamonds(chosen.value);
+        checkAchievements();scheduleSaveAll();
+      }
+    }
+    requestAnimationFrame(animate);
+  });
+  overlay.querySelector('#spinCloseBtn').addEventListener('click', () => overlay.remove());
+
+  function drawWheel(angle) {
+    const canvas=overlay.querySelector('#spinCanvas');
+    const ctx=canvas.getContext('2d');
+    const cx=130,cy=130,r=122;
+    ctx.clearRect(0,0,260,260);
+    const sliceAngle=(Math.PI*2)/SPIN_PRIZES.length;
+    SPIN_PRIZES.forEach((p,i)=>{
+      const startA=angle+i*sliceAngle-Math.PI/2;
+      const endA=startA+sliceAngle;
+      ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,startA,endA);ctx.closePath();
+      ctx.fillStyle=p.color;ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,0.15)';ctx.lineWidth=1;ctx.stroke();
+      ctx.save();ctx.translate(cx,cy);ctx.rotate(startA+sliceAngle/2);
+      ctx.fillStyle='#fff';ctx.font='bold 11px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(p.label,r*0.62,0);
+      ctx.restore();
+    });
+    ctx.beginPath();ctx.arc(cx,cy,14,0,Math.PI*2);
+    ctx.fillStyle='#fff';ctx.fill();
+    ctx.strokeStyle='rgba(0,0,0,0.3)';ctx.lineWidth=2;ctx.stroke();
+  }
+}
+
+// ---- Leaderboard (shared storage) ----
+const LB_KEY = 'arcade_leaderboard_v1';
+async function submitScore(accountId, accountName, avatar, gameId, score) {
+  if (!score || score <= 0) return;
+  try {
+    const r = await window.storage.get(LB_KEY, true);
+    let lb = [];
+    if (r && r.value) lb = JSON.parse(r.value);
+    const existing = lb.findIndex(e=>e.accountId===accountId&&e.gameId===gameId);
+    if (existing>=0 && lb[existing].score>=score) return;
+    if (existing>=0) lb.splice(existing,1);
+    lb.push({ accountId, accountName, avatar, gameId, score, ts: Date.now() });
+    lb.sort((a,b)=>b.score-a.score);
+    lb = lb.slice(0,200);
+    await window.storage.set(LB_KEY, JSON.stringify(lb), true);
+  } catch(e) {}
+}
+async function getLeaderboard(gameId) {
+  try {
+    const r = await window.storage.get(LB_KEY, true);
+    if (!r||!r.value) return [];
+    const lb = JSON.parse(r.value);
+    return gameId ? lb.filter(e=>e.gameId===gameId) : lb;
+  } catch(e) { return []; }
+}
+
+// ---- Profile Page ----
+function openProfilePage() {
+  const s = window.__sys;
+  const acct = window.__currentAccountMeta;
+  const totalGames = Object.keys(s.stats||{}).length;
+  const totalSec = s.totalTime||0;
+  const h = Math.floor(totalSec/3600), m = Math.floor((totalSec%3600)/60);
+  const completionPct = Math.round(totalGames/33*100);
+  const completedAchs = (s.achievements||[]).length;
+
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(10,5,25,0.88);z-index:10000;overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:linear-gradient(135deg,#2d1f6b,#1a1245);border:1px solid rgba(255,255,255,0.12);border-radius:24px;padding:32px 28px;max-width:420px;width:100%;color:#fff;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+        <div style="font-size:22px;font-weight:900;letter-spacing:2px;">個人資料</div>
+        <button id="profileClose" style="background:rgba(255,255,255,0.1);border:none;color:#fff;padding:7px 14px;border-radius:20px;cursor:pointer;font-size:13px;">關閉</button>
+      </div>
+      <!-- avatar + name -->
+      <div style="display:flex;align-items:center;gap:16px;background:rgba(255,255,255,0.07);border-radius:16px;padding:16px;margin-bottom:20px;">
+        <div style="font-size:52px;">${acct?.avatar||'🎮'}</div>
+        <div>
+          <div style="font-weight:900;font-size:20px;">${acct?.name||'玩家'}</div>
+          <div style="color:#ffc857;font-size:13px;margin-top:2px;">稱號：${titleForLevel(s.level)}</div>
+          <div style="color:rgba(255,255,255,0.5);font-size:12px;margin-top:2px;">連續登入 ${s.loginStreak||0} 天</div>
+        </div>
+      </div>
+      <!-- level/xp -->
+      <div style="background:rgba(255,255,255,0.07);border-radius:14px;padding:14px;margin-bottom:14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-weight:800;font-size:15px;">等級 ${s.level}</span>
+          <span style="color:rgba(255,255,255,0.5);font-size:12px;">${s.xp} / ${XP_PER_LEVEL(s.level)} XP</span>
+        </div>
+        <div style="height:10px;background:rgba(255,255,255,0.1);border-radius:5px;overflow:hidden;">
+          <div style="height:100%;width:${Math.min(100,s.xp/XP_PER_LEVEL(s.level)*100)}%;background:linear-gradient(90deg,#a29bfe,#6c5ce7);border-radius:5px;"></div>
+        </div>
+      </div>
+      <!-- currencies -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+        <div style="background:rgba(255,200,87,0.1);border:1px solid rgba(255,200,87,0.3);border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:22px;">💰</div>
+          <div style="font-weight:800;font-size:18px;color:#ffc857;">${Wallet.coins}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);">金幣</div>
+        </div>
+        <div style="background:rgba(0,206,201,0.1);border:1px solid rgba(0,206,201,0.3);border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:22px;">💎</div>
+          <div style="font-weight:800;font-size:18px;color:#00cec9;">${s.diamonds||0}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);">鑽石</div>
+        </div>
+      </div>
+      <!-- stats grid -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+        ${[
+          ['🎮','總遊玩次數',s.totalPlays||0,'次'],
+          ['⏱️','總遊玩時間',`${h}h${m}m`,''],
+          ['🎯','遊玩款數',totalGames,'/ 33'],
+          ['🏆','成就解鎖',completedAchs,`/ ${ACHIEVEMENTS.length}`],
+          ['📊','遊戲完成度',completionPct+'%',''],
+          ['📅','連續登入',s.loginStreak||0,'天'],
+        ].map(([icon,label,val,unit])=>`
+          <div style="background:rgba(255,255,255,0.06);border-radius:12px;padding:12px;">
+            <div style="font-size:18px;margin-bottom:4px;">${icon}</div>
+            <div style="font-size:20px;font-weight:900;color:#fff;">${val}<span style="font-size:12px;color:rgba(255,255,255,0.4);margin-left:3px;">${unit}</span></div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.45);">${label}</div>
+          </div>
+        `).join('')}
+      </div>
+      <!-- achievements preview -->
+      <div style="margin-bottom:14px;">
+        <div style="font-weight:800;font-size:14px;letter-spacing:1px;margin-bottom:10px;">🏅 成就 (${completedAchs}/${ACHIEVEMENTS.length})</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          ${ACHIEVEMENTS.map(ach=>{
+            const done=(s.achievements||[]).includes(ach.id);
+            return `<div title="${ach.name}: ${ach.desc}" style="background:${done?'rgba(255,200,87,0.15)':'rgba(255,255,255,0.05)'};border:1.5px solid ${done?'rgba(255,200,87,0.5)':'rgba(255,255,255,0.1)'};border-radius:10px;padding:6px 10px;font-size:16px;opacity:${done?1:0.35};cursor:default;">${ach.icon}</div>`;
+          }).join('')}
+        </div>
+      </div>
+      <!-- recent games -->
+      <div>
+        <div style="font-weight:800;font-size:14px;letter-spacing:1px;margin-bottom:10px;">🕹️ 最近遊玩</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          ${(s.recentGames||[]).slice(0,5).map(r=>{
+            const game=window.GAMES&&GAMES.find(g=>g.id===r.gameId);
+            const name=game?game.title:r.gameId;
+            const d=new Date(r.ts).toLocaleDateString('zh-TW');
+            return `<div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:13px;font-weight:700;">${name}</span>
+              <span style="font-size:12px;color:rgba(255,255,255,0.4);">${r.score>0?'分數 '+r.score:''}　${d}</span>
+            </div>`;
+          }).join('')||'<div style="color:rgba(255,255,255,0.3);font-size:13px;">尚無紀錄</div>'}
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#profileClose').addEventListener('click',()=>overlay.remove());
+  overlay.addEventListener('click', e=>{ if(e.target===overlay)overlay.remove(); });
+}
+
+// ---- Leaderboard UI ----
+async function openLeaderboardPage(defaultGame) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(10,5,25,0.88);z-index:10000;overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:linear-gradient(135deg,#1a2a4a,#0f1a30);border:1px solid rgba(94,200,232,0.2);border-radius:24px;padding:32px 28px;max-width:440px;width:100%;color:#fff;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <div style="font-size:22px;font-weight:900;letter-spacing:2px;">🏆 排行榜</div>
+        <button id="lbClose" style="background:rgba(255,255,255,0.1);border:none;color:#fff;padding:7px 14px;border-radius:20px;cursor:pointer;font-size:13px;">關閉</button>
+      </div>
+      <select id="lbGameSelect" style="width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:10px;color:#fff;font-size:13px;margin-bottom:16px;outline:none;">
+        <option value="">全部遊戲（最高分）</option>
+        ${GAMES.map(g=>`<option value="${g.id}" ${g.id===defaultGame?'selected':''}>${g.title}</option>`).join('')}
+      </select>
+      <div id="lbList" style="display:flex;flex-direction:column;gap:8px;">
+        <div style="color:rgba(255,255,255,0.4);text-align:center;padding:20px;">載入中...</div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#lbClose').addEventListener('click',()=>overlay.remove());
+  overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove();});
+
+  async function loadLB(gameId) {
+    const lbList = overlay.querySelector('#lbList');
+    lbList.innerHTML = '<div style="color:rgba(255,255,255,0.4);text-align:center;padding:20px;">載入中...</div>';
+    const all = await getLeaderboard(gameId||'');
+    const filtered = gameId ? all : all.reduce((acc,e)=>{
+      const ex=acc.find(a=>a.accountId===e.accountId);
+      if(!ex||e.score>ex.score){if(ex)acc.splice(acc.indexOf(ex),1);acc.push(e);}
+      return acc;
+    },[]).sort((a,b)=>b.score-a.score);
+    const top = filtered.slice(0,20);
+    if (!top.length) { lbList.innerHTML='<div style="color:rgba(255,255,255,0.3);text-align:center;padding:20px;">尚無紀錄，成為第一個上榜的玩家！</div>'; return; }
+    const medals=['🥇','🥈','🥉'];
+    lbList.innerHTML = top.map((e,i)=>{
+      const isMe = e.accountId===window.__currentAccountId;
+      return `<div style="background:${isMe?'rgba(255,200,87,0.12)':'rgba(255,255,255,0.05)'};border:1.5px solid ${isMe?'rgba(255,200,87,0.4)':'rgba(255,255,255,0.08)'};border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;">
+        <div style="font-size:20px;min-width:28px;text-align:center;">${medals[i]||'#'+(i+1)}</div>
+        <div style="font-size:22px;">${e.avatar||'🎮'}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:800;font-size:14px;${isMe?'color:#ffc857':''}">${e.accountName}${isMe?' (我)':''}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.4);">${gameId?'':'最佳：'+GAMES.find(g=>g.id===e.gameId)?.title||e.gameId}</div>
+        </div>
+        <div style="font-weight:900;font-size:16px;color:#5ec8e8;">${e.score}</div>
+      </div>`;
+    }).join('');
+  }
+
+  overlay.querySelector('#lbGameSelect').addEventListener('change',e=>loadLB(e.target.value));
+  loadLB(defaultGame||'');
+}
+
+// ---- Utility ----
+function showSysToast(msg, color) {
+  const t = document.createElement('div');
+  t.style.cssText = `position:fixed;top:80px;left:50%;transform:translateX(-50%);background:rgba(30,20,50,0.96);color:${color||'#fff'};padding:10px 22px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:1px;z-index:9998;border:1px solid ${color||'rgba(255,255,255,0.2)'}44;pointer-events:none;white-space:nowrap;`;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>{ t.style.transition='opacity 0.4s'; t.style.opacity='0'; setTimeout(()=>t.remove(),400); }, 2200);
+}
+
+function refreshTasksUI() {
+  const el = document.getElementById('tasksBadge');
+  if (!el) return;
+  const s = window.__sys;
+  const done = (s.dailyTasks||[]).filter(t=>t.done).length;
+  const total = (s.dailyTasks||[]).length;
+  el.textContent = `${done}/${total}`;
+}
+
+// ---- Save/Load sys data (called from hub.js) ----
+function getSysData() {
+  return window.__sys;
+}
+function applySysData(data) {
+  if (!data) return;
+  const s = window.__sys;
+  Object.assign(s, data);
+}
+
+// ---- Init sys (called after account load) ----
+function initSystems() {
+  if (!window.__sys) window.__sys = {};
+  const defaults = { level:1, xp:0, diamonds:0, loginStreak:0, lastLoginDate:'',
+    totalPlays:0, totalTime:0, stats:{}, recentGames:[], favorites:[],
+    achievements:[], spinCount:0, tasksCompleted:0 };
+  Object.keys(defaults).forEach(k=>{ if(window.__sys[k]==null) window.__sys[k]=defaults[k]; });
+}
 
 
 // ===== game-snake.js =====
@@ -13827,8 +14392,7 @@ function mountTerritoryGame(container, gameDef) {
 
 // ===== hub.js =====
 // ============================================================
-// HUB + LOGIN CONTROLLER
-// Multi-account login screen → hub with game cards
+// HUB + LOGIN CONTROLLER — with full systems integration
 // ============================================================
 
 const AVATARS = ['🎮','🦊','🐱','🐸','🐼','🦄','🐉','⭐','🌙','🔮','🎃','🌸'];
@@ -13847,22 +14411,55 @@ const createBtn     = document.getElementById('createAccountBtn');
 const loginBtn      = document.getElementById('loginBtn');
 const loginError    = document.getElementById('loginError');
 const avatarRow     = document.getElementById('avatarRow');
-const userBadge     = document.getElementById('userBadge');
-const userAvatarEl  = document.getElementById('userAvatarDisplay');
-const userNameEl    = document.getElementById('userNameDisplay');
 
 mountWalletBadge(document.getElementById('walletBadge'));
 
 // ---- State ----
-let accounts = [];      // [{id, name, avatar, createdAt}]
-let selectedId = null;  // id selected on login screen
+let accounts = [];
+let selectedId = null;
 let selectedNewAvatar = AVATARS[0];
 let currentGame = null;
+let gameStartTime = null;
+let currentFilter = 'all';
+let searchQuery = '';
+
+// ---- Persisted sys data ----
+async function loadFullAccount(id) {
+  resetSave();
+  initSystems();
+  const data = await loadAccountData(id);
+  if (data) {
+    await applySave(data);
+    if (data.sys) applySysData(data.sys);
+  }
+  updateHudXP();
+  refreshHighScores();
+  refreshFavoriteButtons();
+}
+
+async function flushFull() {
+  const id = window.__currentAccountId;
+  if (!id) return;
+  const data = {
+    coins: Wallet.coins,
+    shopOwned: ShopItems.filter(i=>i.owned&&i.price>0).map(i=>i.id),
+    shopEquipped: ShopItems.filter(i=>i.equipped).map(i=>({id:i.id,gameId:i.gameId,kind:i.kind})),
+    highScores: window.__arcadeHighScores||{},
+    savedAt: Date.now(),
+    sys: getSysData()
+  };
+  await saveAccountData(id, data);
+}
+
+window.scheduleSaveAll = () => {
+  clearTimeout(window.__saveTimer);
+  window.__saveTimer = setTimeout(flushFull, 800);
+};
 
 // ---- Avatar picker ----
-AVATARS.forEach((em, i) => {
+AVATARS.forEach((em,i) => {
   const btn = document.createElement('div');
-  btn.className = 'avatar-opt' + (i===0 ? ' selected' : '');
+  btn.className = 'avatar-opt'+(i===0?' selected':'');
   btn.textContent = em;
   btn.addEventListener('click', () => {
     document.querySelectorAll('.avatar-opt').forEach(b=>b.classList.remove('selected'));
@@ -13872,25 +14469,23 @@ AVATARS.forEach((em, i) => {
   avatarRow.appendChild(btn);
 });
 
-// ---- Load accounts from storage ----
+// ---- Load accounts ----
 async function initLogin() {
   accounts = await loadAccountList();
   renderAccountList();
-  if (accounts.length === 0) {
-    loginError.textContent = '還沒有帳號，請建立一個吧！';
-  }
+  if (accounts.length===0) loginError.textContent='還沒有帳號，請建立一個吧！';
 }
 
 function renderAccountList() {
   accountListEl.innerHTML = '';
-  if (accounts.length === 0) {
-    accountListEl.innerHTML = '<div style="color:rgba(255,255,255,0.3);text-align:center;font-size:13px;padding:8px 0;">尚無帳號</div>';
+  if (!accounts.length) {
+    accountListEl.innerHTML='<div style="color:rgba(255,255,255,0.3);text-align:center;font-size:13px;padding:8px 0;">尚無帳號</div>';
     return;
   }
   accounts.forEach(acct => {
     const item = document.createElement('div');
-    item.className = 'account-item' + (selectedId===acct.id ? ' selected' : '');
-    item.innerHTML = `
+    item.className='account-item'+(selectedId===acct.id?' selected':'');
+    item.innerHTML=`
       <div class="account-avatar">${acct.avatar}</div>
       <div class="account-info">
         <div class="account-name">${acct.name}</div>
@@ -13898,202 +14493,352 @@ function renderAccountList() {
       </div>
       <button class="account-delete" title="刪除帳號" data-id="${acct.id}">🗑</button>
     `;
-    item.addEventListener('click', (e) => {
-      if (e.target.closest('.account-delete')) return;
-      selectedId = acct.id;
+    item.addEventListener('click', e=>{
+      if(e.target.closest('.account-delete'))return;
+      selectedId=acct.id;
       document.querySelectorAll('.account-item').forEach(el=>el.classList.remove('selected'));
       item.classList.add('selected');
-      loginBtn.disabled = false;
-      loginError.textContent = '';
+      loginBtn.disabled=false;
+      loginError.textContent='';
     });
-    item.querySelector('.account-delete').addEventListener('click', async (e) => {
+    item.querySelector('.account-delete').addEventListener('click', async e=>{
       e.stopPropagation();
-      if (!confirm(`確定要刪除帳號「${acct.name}」嗎？所有進度將永久消失。`)) return;
-      accounts = accounts.filter(a=>a.id!==acct.id);
-      await saveAccountList(accounts);
-      await deleteAccountData(acct.id);
-      if (selectedId===acct.id) { selectedId=null; loginBtn.disabled=true; }
-      renderAccountList();
-      loadAccountStats();
+      showDeleteConfirm(acct);
     });
     accountListEl.appendChild(item);
     loadStatForAccount(acct);
   });
 }
 
-async function loadStatForAccount(acct) {
-  const el = document.getElementById('stats-'+acct.id);
-  if (!el) return;
-  const data = await loadAccountData(acct.id);
-  if (!data) { el.textContent = '全新帳號'; return; }
-  const coins = data.coins || 0;
-  const hs = data.highScores ? Object.keys(data.highScores).length : 0;
-  const savedAt = data.savedAt ? new Date(data.savedAt).toLocaleDateString('zh-TW') : '-';
-  el.textContent = `💰${coins} 金幣 ・ 🏆${hs} 款有紀錄 ・ ${savedAt}`;
+function showDeleteConfirm(acct) {
+  const d = document.createElement('div');
+  d.style.cssText='position:fixed;inset:0;background:rgba(10,5,25,0.85);z-index:20000;display:flex;align-items:center;justify-content:center;';
+  d.innerHTML=`
+    <div style="background:linear-gradient(135deg,#3a1a1a,#5a2a2a);border:2px solid rgba(255,80,80,0.4);border-radius:20px;padding:28px 24px;max-width:320px;width:90%;text-align:center;color:#fff;">
+      <div style="font-size:40px;margin-bottom:10px;">⚠️</div>
+      <div style="font-weight:900;font-size:18px;margin-bottom:6px;">刪除帳號</div>
+      <div style="color:rgba(255,255,255,0.7);font-size:13px;line-height:1.6;margin-bottom:22px;">確定要刪除帳號「<strong>${acct.name}</strong>」嗎？<br>所有金幣、成就、紀錄將永久消失，無法復原。</div>
+      <div style="display:flex;gap:10px;">
+        <button id="delCancel" style="flex:1;padding:11px;border-radius:12px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#fff;cursor:pointer;font-weight:700;">取消</button>
+        <button id="delConfirm" style="flex:1;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#e63946,#c1121f);color:#fff;cursor:pointer;font-weight:900;">確認刪除</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(d);
+  d.querySelector('#delCancel').addEventListener('click',()=>d.remove());
+  d.querySelector('#delConfirm').addEventListener('click',async()=>{
+    d.remove();
+    accounts=accounts.filter(a=>a.id!==acct.id);
+    await saveAccountList(accounts);
+    await deleteAccountData(acct.id);
+    if(selectedId===acct.id){selectedId=null;loginBtn.disabled=true;}
+    renderAccountList();
+  });
 }
 
-async function loadAccountStats() {
-  for (const acct of accounts) await loadStatForAccount(acct);
+async function loadStatForAccount(acct) {
+  const el=document.getElementById('stats-'+acct.id);
+  if(!el)return;
+  const data=await loadAccountData(acct.id);
+  if(!data){el.textContent='全新帳號';return;}
+  const coins=data.coins||0;
+  const lvl=data.sys?.level||1;
+  const streak=data.sys?.loginStreak||0;
+  const d=data.savedAt?new Date(data.savedAt).toLocaleDateString('zh-TW'):'-';
+  el.textContent=`Lv.${lvl}　💰${coins}　🔥${streak}天　${d}`;
 }
 
 // ---- Create account ----
-createBtn.addEventListener('click', async () => {
-  const name = newNameInput.value.trim();
-  if (!name) { loginError.textContent = '請輸入名稱！'; return; }
-  if (accounts.some(a=>a.name===name)) { loginError.textContent = '這個名稱已被使用！'; return; }
-  const id = 'acct_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
-  const acct = { id, name, avatar: selectedNewAvatar, createdAt: Date.now() };
+createBtn.addEventListener('click', async()=>{
+  const name=newNameInput.value.trim();
+  if(!name){loginError.textContent='請輸入名稱！';return;}
+  if(accounts.some(a=>a.name===name)){loginError.textContent='這個名稱已被使用！';return;}
+  const id='acct_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);
+  const acct={id,name,avatar:selectedNewAvatar,createdAt:Date.now()};
   accounts.push(acct);
   await saveAccountList(accounts);
-  selectedId = id;
-  newNameInput.value = '';
-  loginError.textContent = '';
-  loginBtn.disabled = false;
+  selectedId=id;
+  newNameInput.value='';
+  loginError.textContent='';
+  loginBtn.disabled=false;
   renderAccountList();
-  loadAccountStats();
 });
-
-newNameInput.addEventListener('keydown', e => { if(e.key==='Enter') createBtn.click(); });
+newNameInput.addEventListener('keydown',e=>{if(e.key==='Enter')createBtn.click();});
 
 // ---- Login ----
-loginBtn.addEventListener('click', async () => {
-  if (!selectedId) return;
-  const acct = accounts.find(a=>a.id===selectedId);
-  if (!acct) return;
-  loginBtn.disabled = true;
-  loginBtn.textContent = '載入中...';
-  window.__currentAccountId = selectedId;
-  // reset in-memory state before loading
-  resetSave();
-  const data = await loadAccountData(selectedId);
-  await applySave(data);
-  // enter hub
-  loginScreen.style.display = 'none';
-  hubEl.style.display = 'block';
-  userAvatarEl.textContent = acct.avatar;
-  userNameEl.textContent = acct.name;
-  refreshHighScores();
-  loginBtn.disabled = false;
-  loginBtn.textContent = '▶ 進入遊樂場';
+loginBtn.addEventListener('click',async()=>{
+  if(!selectedId)return;
+  const acct=accounts.find(a=>a.id===selectedId);
+  if(!acct)return;
+  loginBtn.disabled=true; loginBtn.textContent='載入中...';
+  window.__currentAccountId=selectedId;
+  window.__currentAccountMeta=acct;
+  await loadFullAccount(selectedId);
+  initDailyTasks();
+  checkDailyLogin();
+  // submit best scores to leaderboard
+  const hs=window.__arcadeHighScores||{};
+  for(const [gid,sc] of Object.entries(hs)){
+    submitScore(selectedId,acct.name,acct.avatar,gid,sc);
+  }
+  loginScreen.style.display='none';
+  hubEl.style.display='block';
+  document.getElementById('userAvatarDisplay').textContent=acct.avatar;
+  document.getElementById('userNameDisplay').textContent=acct.name;
+  document.getElementById('userLevelDisplay').textContent='Lv.'+window.__sys.level;
+  document.getElementById('hudDiamonds').textContent=window.__sys.diamonds||0;
+  updateHudXP();
+  buildGameGrid();
+  loginBtn.disabled=false; loginBtn.textContent='▶ 進入遊樂場';
 });
 
-// ---- Switch account (from hub) ----
-userBadge.addEventListener('click', () => {
-  flushSave();
-  hubEl.style.display = 'none';
-  loginScreen.style.display = 'flex';
-  selectedId = null;
-  loginBtn.disabled = true;
+// ---- Switch account ----
+document.getElementById('userBadge').addEventListener('click',()=>{
+  flushFull();
+  hubEl.style.display='none';
+  loginScreen.style.display='flex';
+  selectedId=null; loginBtn.disabled=true;
   renderAccountList();
-  loadAccountStats();
+  accounts.forEach(a=>loadStatForAccount(a));
 });
 
-// ---- Build game cards ----
-const gameGrid = document.getElementById('gameGrid');
-GAMES.forEach(game => {
-  const card = document.createElement('div');
-  card.className = 'game-card';
-  card.dataset.gameId = game.id;
-  card.innerHTML = `
-    <div class="play-badge">立即遊玩 ▶</div>
-    <canvas width="300" height="180"></canvas>
-    <div class="card-label">
-      <span class="card-tag" style="background:${game.tagColor}">${game.tag}</span>
-      <h3>${game.title}</h3>
-      <div class="card-desc">${game.desc}</div>
-      <div class="card-hs" id="hs-${game.id}"></div>
-    </div>
-  `;
-  card.addEventListener('click', () => openGame(game));
-  gameGrid.appendChild(card);
-  const canvas = card.querySelector('canvas');
-  const ctx = canvas.getContext('2d');
-  game.drawThumbnail(ctx, canvas.width, canvas.height);
+// ---- Hub toolbar buttons ----
+document.getElementById('profileBtn').addEventListener('click', openProfilePage);
+document.getElementById('lbBtn').addEventListener('click', ()=>openLeaderboardPage(''));
+document.getElementById('spinBtn2').addEventListener('click', openSpinWheel);
+document.getElementById('tasksBtn').addEventListener('click', openTasksPanel);
+document.getElementById('randomBtn').addEventListener('click', ()=>{
+  const game=GAMES[Math.floor(Math.random()*GAMES.length)];
+  openGame(game);
 });
 
-// ---- Reset save button ----
-const resetBtn = document.createElement('button');
-resetBtn.textContent = '🗑️ 重置此帳號的所有進度';
-resetBtn.style.cssText = 'margin:8px auto 24px;display:block;padding:7px 22px;border-radius:20px;border:1px solid rgba(255,80,80,0.3);background:rgba(255,80,80,0.07);color:rgba(255,150,150,0.7);font-size:11px;cursor:pointer;letter-spacing:1px;';
-resetBtn.addEventListener('click', async () => {
-  const acct = accounts.find(a=>a.id===window.__currentAccountId);
-  const name = acct ? acct.name : '此帳號';
-  if (!confirm(`確定要重置「${name}」的所有金幣、購買紀錄和最高分嗎？`)) return;
-  resetSave();
-  await flushSave();
-  refreshHighScores();
-  showToast('進度已重置 🗑️');
+// ---- Build game grid ----
+function buildGameGrid() {
+  const gameGrid=document.getElementById('gameGrid');
+  gameGrid.innerHTML='';
+  const s=window.__sys||{};
+  const favs=s.favorites||[];
+
+  GAMES.forEach(game=>{
+    const isFav=favs.includes(game.id);
+    const card=document.createElement('div');
+    card.className='game-card';
+    card.dataset.gameId=game.id;
+    card.dataset.tag=game.tag;
+    card.dataset.title=game.title;
+    const hs=getHighScore(game.id);
+    card.innerHTML=`
+      <button class="fav-btn ${isFav?'fav-active':''}" data-gid="${game.id}" title="收藏">♥</button>
+      <div class="play-badge">▶ 立即遊玩</div>
+      <canvas width="300" height="180"></canvas>
+      <div class="card-label">
+        <span class="card-tag" style="background:${game.tagColor}">${game.tag}</span>
+        <h3>${game.title}</h3>
+        <div class="card-desc">${game.desc}</div>
+        <div class="card-hs" id="hs-${game.id}">${hs>0?'🏆 '+hs:''}</div>
+      </div>
+    `;
+    card.querySelector('.fav-btn').addEventListener('click',e=>{
+      e.stopPropagation();
+      const on=toggleFavorite(game.id);
+      e.currentTarget.classList.toggle('fav-active',on);
+      showSysToast(on?`❤️ 已收藏 ${game.title}`:`💔 取消收藏 ${game.title}`,'#ff6fa5');
+      filterGrid();
+    });
+    card.addEventListener('click',()=>openGame(game));
+    gameGrid.appendChild(card);
+    const canvas=card.querySelector('canvas');
+    game.drawThumbnail(canvas.getContext('2d'),300,180);
+  });
+  filterGrid();
+}
+
+// ---- Search & filter ----
+document.getElementById('searchInput').addEventListener('input',e=>{
+  searchQuery=e.target.value.toLowerCase();
+  filterGrid();
 });
-gameGrid.parentElement.appendChild(resetBtn);
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter=btn.dataset.filter;
+    filterGrid();
+  });
+});
+
+function filterGrid() {
+  const cards=document.querySelectorAll('.game-card');
+  const favs=(window.__sys?.favorites)||[];
+  cards.forEach(card=>{
+    const gid=card.dataset.gameId;
+    const tag=card.dataset.tag;
+    const title=card.dataset.title||'';
+    const matchSearch=!searchQuery||title.includes(searchQuery)||tag.includes(searchQuery)||gid.includes(searchQuery);
+    const matchFilter=
+      currentFilter==='all' ||
+      (currentFilter==='fav'&&favs.includes(gid)) ||
+      (currentFilter==='recent'&&(window.__sys?.recentGames||[]).some(r=>r.gameId===gid)) ||
+      tag===currentFilter;
+    card.style.display=(matchSearch&&matchFilter)?'':'none';
+  });
+}
+
+function refreshFavoriteButtons() {
+  const favs=(window.__sys?.favorites)||[];
+  document.querySelectorAll('.fav-btn').forEach(btn=>{
+    btn.classList.toggle('fav-active',favs.includes(btn.dataset.gid));
+  });
+  filterGrid();
+}
 
 // ---- High scores ----
 function refreshHighScores() {
-  GAMES.forEach(game => {
-    const el = document.getElementById('hs-'+game.id);
-    if (!el) return;
-    const hs = getHighScore(game.id);
-    el.textContent = hs > 0 ? `🏆 最高分：${hs}` : '';
+  GAMES.forEach(game=>{
+    const el=document.getElementById('hs-'+game.id);
+    if(!el)return;
+    const hs=getHighScore(game.id);
+    el.textContent=hs>0?'🏆 '+hs:'';
   });
 }
-setInterval(refreshHighScores, 1500);
+setInterval(()=>{ refreshHighScores(); updateHudXP(); refreshTasksUI(); }, 2000);
 
-// ---- Toast helper ----
-function showToast(msg, isError) {
-  const t = document.createElement('div');
-  t.style.cssText = `position:fixed;top:80px;left:50%;transform:translateX(-50%);background:rgba(30,20,50,0.96);color:#fff;padding:10px 22px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:1px;z-index:9999;border:1px solid ${isError?'rgba(255,80,80,0.4)':'rgba(255,200,87,0.4)'};pointer-events:none;`;
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 2600);
+// ---- Tasks panel ----
+function openTasksPanel() {
+  const s=window.__sys;
+  const overlay=document.createElement('div');
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(10,5,25,0.85);z-index:10000;display:flex;align-items:center;justify-content:center;';
+  const tasks=s.dailyTasks||[];
+  overlay.innerHTML=`
+    <div style="background:linear-gradient(135deg,#1a3a5c,#0f2040);border:1px solid rgba(94,200,232,0.25);border-radius:24px;padding:30px 26px;max-width:380px;width:92%;color:#fff;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <div style="font-size:20px;font-weight:900;letter-spacing:2px;">📋 每日任務</div>
+        <button id="tasksClose" style="background:rgba(255,255,255,0.1);border:none;color:#fff;padding:7px 14px;border-radius:20px;cursor:pointer;font-size:13px;">關閉</button>
+      </div>
+      <div style="color:rgba(255,255,255,0.4);font-size:12px;margin-bottom:16px;">每日零點重置 · 完成任務獲得金幣與XP</div>
+      ${tasks.map(t=>`
+        <div style="background:${t.done?'rgba(85,230,165,0.12)':'rgba(255,255,255,0.06)'};border:1.5px solid ${t.done?'rgba(85,230,165,0.4)':'rgba(255,255,255,0.1)'};border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;">
+          <span style="font-size:24px;">${t.icon}</span>
+          <div style="flex:1;">
+            <div style="font-weight:800;font-size:14px;${t.done?'color:#55e6a5;text-decoration:line-through':''}">${t.name}</div>
+            <div style="color:rgba(255,255,255,0.5);font-size:11px;margin-top:2px;">+${t.coins}💰 +${t.xp}XP</div>
+          </div>
+          <div style="font-size:20px;">${t.done?'✅':'⬜'}</div>
+        </div>
+      `).join('')}
+      ${tasks.every(t=>t.done)?'<div style="color:#55e6a5;text-align:center;font-weight:800;font-size:15px;margin-top:8px;">🎉 今日任務全部完成！</div>':''}
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#tasksClose').addEventListener('click',()=>overlay.remove());
+  overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove();});
 }
 
 // ---- Open / close game ----
 function openGame(game) {
-  hubEl.style.display = 'none';
+  hubEl.style.display='none';
   gameScreen.classList.add('active');
-  gameTitleBar.textContent = game.title;
-  gameContainer.innerHTML = '';
-  currentGame = game;
+  gameTitleBar.textContent=game.title;
+  gameContainer.innerHTML='';
+  currentGame=game;
+  gameStartTime=Date.now();
   game.mount(gameContainer);
-  const hasShop = getShopItemsForGame(game.id).length > 0;
-  shopOpenBtn.style.display = hasShop ? 'inline-block' : 'none';
+  const hasShop=getShopItemsForGame(game.id).length>0;
+  shopOpenBtn.style.display=hasShop?'inline-block':'none';
+  // track task progress
+  trackTaskProgress('play',game.id);
+  // xp for opening a game
+  addXP(5);
 }
 
-shopOpenBtn.addEventListener('click', () => {
-  if (currentGame) openShop(currentGame.id, currentGame.title);
+shopOpenBtn.addEventListener('click',()=>{
+  if(currentGame)openShop(currentGame.id,currentGame.title);
+});
+
+const pauseBtn=document.getElementById('pauseBtn');
+let gamePaused=false;
+pauseBtn.addEventListener('click',()=>{
+  gamePaused=!gamePaused;
+  const pauseOverlay=document.getElementById('pauseOverlay');
+  pauseOverlay.style.display=gamePaused?'flex':'none';
+  pauseBtn.textContent=gamePaused?'▶ 繼續':'⏸ 暫停';
+});
+document.getElementById('resumeBtn').addEventListener('click',()=>{
+  gamePaused=false;
+  document.getElementById('pauseOverlay').style.display='none';
+  pauseBtn.textContent='⏸ 暫停';
+});
+document.getElementById('quitBtn').addEventListener('click',()=>{
+  gamePaused=false;
+  document.getElementById('pauseOverlay').style.display='none';
+  pauseBtn.textContent='⏸ 暫停';
+  closeGame();
 });
 
 function closeGame() {
-  if (currentGame && currentGame.unmount) {
-    try { currentGame.unmount(); } catch(e) {}
+  const durationSec=gameStartTime?Math.round((Date.now()-gameStartTime)/1000):0;
+  if(currentGame){
+    recordPlay(currentGame.id,getHighScore(currentGame.id),durationSec);
+    if(window.__sys)window.__sys.totalTime=(window.__sys.totalTime||0)+durationSec;
+    // submit to leaderboard
+    const hs=getHighScore(currentGame.id);
+    const acct=window.__currentAccountMeta;
+    if(acct&&hs>0)submitScore(window.__currentAccountId,acct.name,acct.avatar,currentGame.id,hs);
+    if(currentGame.unmount){try{currentGame.unmount();}catch(e){}}
   }
-  currentGame = null;
+  currentGame=null; gameStartTime=null;
   gameScreen.classList.remove('active');
-  hubEl.style.display = 'block';
-  gameContainer.innerHTML = '';
+  hubEl.style.display='block';
+  gameContainer.innerHTML='';
   refreshHighScores();
-  flushSave();
+  refreshFavoriteButtons();
+  flushFull();
 }
+backBtn.addEventListener('click',closeGame);
 
-backBtn.addEventListener('click', closeGame);
+// ---- Reset btn ----
+const resetBtn=document.createElement('button');
+resetBtn.textContent='🗑️ 重置此帳號的所有進度';
+resetBtn.style.cssText='margin:8px auto 28px;display:block;padding:7px 22px;border-radius:20px;border:1px solid rgba(255,80,80,0.3);background:rgba(255,80,80,0.07);color:rgba(255,150,150,0.7);font-size:11px;cursor:pointer;letter-spacing:1px;';
+resetBtn.addEventListener('click',async()=>{
+  showDeleteConfirm({id:'__reset__',name:'帳號進度'});
+  // override the confirm behavior
+});
+// simpler direct reset
+resetBtn.addEventListener('click',async e=>{
+  e.stopPropagation();
+  const acct=accounts.find(a=>a.id===window.__currentAccountId);
+  const d=document.createElement('div');
+  d.style.cssText='position:fixed;inset:0;background:rgba(10,5,25,0.85);z-index:20000;display:flex;align-items:center;justify-content:center;';
+  d.innerHTML=`<div style="background:linear-gradient(135deg,#3a1a1a,#5a2a2a);border:2px solid rgba(255,80,80,0.4);border-radius:20px;padding:28px 24px;max-width:320px;width:90%;text-align:center;color:#fff;">
+    <div style="font-size:40px;">⚠️</div>
+    <div style="font-weight:900;font-size:18px;margin:10px 0 6px;">重置進度</div>
+    <div style="color:rgba(255,255,255,0.7);font-size:13px;line-height:1.6;margin-bottom:22px;">確定要重置「${acct?.name||''}」的所有金幣、成就、等級和最高分嗎？</div>
+    <div style="display:flex;gap:10px;">
+      <button id="rc" style="flex:1;padding:11px;border-radius:12px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:#fff;cursor:pointer;font-weight:700;">取消</button>
+      <button id="rk" style="flex:1;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#e63946,#c1121f);color:#fff;cursor:pointer;font-weight:900;">確認重置</button>
+    </div>
+  </div>`;
+  document.body.appendChild(d);
+  d.querySelector('#rc').addEventListener('click',()=>d.remove());
+  d.querySelector('#rk').addEventListener('click',async()=>{
+    d.remove();
+    resetSave();
+    window.__sys={};
+    initSystems();
+    await flushFull();
+    buildGameGrid();
+    updateHudXP();
+    document.getElementById('hudDiamonds').textContent=0;
+    showSysToast('進度已重置','#ff8080');
+  });
+},{once:false});
+document.getElementById('gameGrid').parentElement.appendChild(resetBtn);
 
 // ---- Init ----
-initLogin().then(loadAccountStats);
+initLogin().then(()=>accounts.forEach(a=>loadStatForAccount(a)));
 
 
 </script>
-
-<script>
-async function heartbeat() {
-  try {
-    await fetch("/api/ip");
-  } catch (e) {}
-}
-
-heartbeat();
-
-// 每5秒通知一次伺服器「我還在線」
-setInterval(heartbeat, 5000);
-</script>
-
 </body>
 </html>
