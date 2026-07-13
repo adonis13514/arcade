@@ -162,6 +162,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1a1530;font-family:
   .login-box{padding:24px 16px;}
 }
 </style>
+<script type="module">
+  import { inject } from 'https://cdn.jsdelivr.net/npm/@vercel/analytics@2/+esm';
+  inject();
+</script>
 </head>
 <body>
 <div id="app">
@@ -14839,10 +14843,6 @@ document.getElementById('gameGrid').parentElement.appendChild(resetBtn);
 initLogin().then(()=>accounts.forEach(a=>loadStatForAccount(a)));
 
 
-</script>
-  <script type="module">
-  import { inject } from "https://cdn.jsdelivr.net/npm/@vercel/analytics@1/dist/index.js";
-  inject();
 </script>
 </body>
 </html>
